@@ -14,7 +14,17 @@ class UsersController < ApplicationController
         render json: @user
     end
 
-    
+    def update
+        if @user.update(params)
+            render json: @user
+        else
+            render json: @user.errors
+        end
+    end
+
+    def destroy
+        @user.destroy
+    end
 
 
     private
