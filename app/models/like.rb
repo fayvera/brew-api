@@ -1,4 +1,11 @@
 class Like < ApplicationRecord
-  belongs_to :user_id
-  belongs_to :brewery_id
+  include ActiveModel::Serializers::JSON 
+
+  belongs_to :user
+  belongs_to :brewery
+
+  def attributes
+    {"brewery_id" => nil. "user_id" => nil, "liked" => nil}
+  end
+
 end
