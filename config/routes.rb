@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :locations
   resources :likes
   resources :breweries
   namespace :api do 
