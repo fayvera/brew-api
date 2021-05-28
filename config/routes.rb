@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+
+  resources :likes
+  resources :breweries
   namespace :api do 
     resources :users, except: [:index]
   end

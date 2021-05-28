@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_26_021921) do
+ActiveRecord::Schema.define(version: 2021_05_28_002218) do
+
+  create_table "breweries", force: :cascade do |t|
+    t.string "name"
+    t.integer "location_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_breweries_on_location_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id_id", null: false
+    t.integer "brewery_id_id", null: false
+    t.boolean "liked"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["brewery_id_id"], name: "index_likes_on_brewery_id_id"
+    t.index ["user_id_id"], name: "index_likes_on_user_id_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -20,4 +38,7 @@ ActiveRecord::Schema.define(version: 2021_05_26_021921) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "breweries", "locations"
+  add_foreign_key "likes", "brewery_ids"
+  add_foreign_key "likes", "user_ids"
 end
