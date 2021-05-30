@@ -6,6 +6,6 @@ class User < ApplicationRecord
     has_many :breweries, through: :likes
 
     def attributes
-        {"name" => nil, "id" => nil, "email" => nil, "password" => nil}
+        {"name" => nil, "id" => nil, "email" => nil, "password_digest" => nil}
     end
 end
