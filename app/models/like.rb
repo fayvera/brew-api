@@ -5,7 +5,7 @@ class Like < ApplicationRecord
   belongs_to :brewery
 
   def attributes
-    {"brewery_id" => nil. "user_id" => nil, "liked" => nil}
+    {"brewery_id" => nil, "user_id" => nil, "liked" => nil}
   end
 
 end
