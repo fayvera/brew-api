@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
     before_action :set_user, only: [:show, :update, :destroy]
-    skip_before_action :authorize, only: [:create]
+    skip_before_action :authorized, only: [:create]
 
     def create
         @user = User.create(user_params)
@@ -13,7 +13,7 @@ class Api::UsersController < ApplicationController
     end
 
     def show
-        render json: @user
+        render json: @user.current_user
     end
 
     def update
