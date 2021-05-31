@@ -6,7 +6,7 @@ class CreateLocations < ActiveRecord::Migration[6.1]
       t.string :city
       t.string :address
       t.string :street
-      t.string :longitute
+      t.string :longitude
       t.string :latitude
 
 

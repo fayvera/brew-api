@@ -7,3 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(name: "Kyle", email: "kyle@email.com", password: 'password')
+
+Brewery.create(name: 'Cool Brewery', phone: '09090', website_url: 'url@url', brewery_type: "micro", location_id: 1)
+
+Location.create(country: "USA", state: "NY", city: "NYC", address: 'address 207', street: '88', longitude: '354', latitude: '9809')

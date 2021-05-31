@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2021_05_28_004326) do
     t.string "city"
     t.string "address"
     t.string "street"
-    t.string "longitute"
+    t.string "longitude"
     t.string "latitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
