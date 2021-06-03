@@ -1,9 +1,10 @@
 class Api::AuthController < ApplicationController
     skip_before_action :authorized, only: [:create]
-# Create path for fetch request in frontend
+
 
     def create
-        @user = User.find_by(email: user_login_params[:emial])
+      @user = User.find_by(email: user_login_params[:email])
+      # byebug
         if @user && @user.authenticate(user_login_params[:password])
             token = encode_token({ user_id: @user.id })
             cookies.signed[:jwt] = {value:  token, httponly: true}
@@ -13,10 +14,13 @@ class Api::AuthController < ApplicationController
           end
     end
 
+    def destroy
+      cookies.delete(:jwt)
+    end
     private
 
     def user_login_params
-      params.require(:user).permit(:email, :password)
+      params.require(:auth).permit(:email, :password)
     end
 
 end
