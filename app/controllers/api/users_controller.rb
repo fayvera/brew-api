@@ -12,7 +12,7 @@ class Api::UsersController < ApplicationController
                 render json: { error: 'failed to create user' }, status: :not_acceptable
             end 
         else 
-            render json: { error: 'User already exists. Please use another email.' }, status :not_acceptable 
+            render json: { error: 'User already exists. Please use another email.' }, status: :not_acceptable 
         end
     end
 
