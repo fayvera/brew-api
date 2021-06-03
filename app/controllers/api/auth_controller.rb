@@ -17,6 +17,7 @@ class Api::AuthController < ApplicationController
     def destroy
       cookies.delete(:jwt)
     end
+    
     private
 
     def user_login_params
