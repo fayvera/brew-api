@@ -1,20 +1,16 @@
 class Api::UsersController < ApplicationController
-    before_action :set_user, only: [:update, :destroy, :create]
+    before_action :set_user, only: [:update, :destroy]
     before_action :current_user, only: [:show]
     skip_before_action :authorized, only: [:create]
 
     def create
-        if !@user
-            @user = User.create(user_params)
-            if @user.valid? 
-                @token = encode_token(user_id: @user.id)
-                render json: { user: @user, jwt: @token }, status: :created
-            else
-                render json: { error: 'failed to create user' }, status: :not_acceptable
-            end 
-        else 
-            render json: { error: 'User already exists. Please use another email.' }, status: :not_acceptable 
-        end
+        @user = User.create(user_params)
+        if @user.valid? 
+            @token = encode_token(user_id: @user.id)
+            render json: { user: @user, jwt: @token }, status: :created
+        else
+            render json: { error: 'failed to create user' }, status: :not_acceptable
+        end 
     end
 
     def show
@@ -32,6 +28,10 @@ class Api::UsersController < ApplicationController
     def destroy
         @user.destroy
     end
+
+    # def index
+
+    # end
 
 
     private
