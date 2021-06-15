@@ -18,7 +18,7 @@ class Api::UsersController < ApplicationController
     end
 
     def update
-        brewery = Brewery.find_by(params[:brewery][:odb_id])
+        brewery = Brewery.find_by(params[:brewery][:obdb_id])
         if @user && !@user.breweries.include?(brewery)
             byebug
 
@@ -28,7 +28,7 @@ class Api::UsersController < ApplicationController
 
                 @brewery = Brewery.new(name: params[:brewery][:name], id: params[:brewery][:id],
                 phone: params[:brewery][:phone], website_url: params[:brewery][:website_url], 
-                brewery_type: params[:brewery][:brewery_type], odb_id: params[:brewery][:odb_id]
+                brewery_type: params[:brewery][:brewery_type], odb_id: params[:brewery][:obdb_id]
                 location_id: @location.id)
             if @user.update(breweries << @brewery)
 
@@ -56,6 +56,7 @@ class Api::UsersController < ApplicationController
         @location = Location.new(country: params[:brewery][:country], 
         state: params[:brewery][:state], city: params[:brewery][:city], 
         address: params[:brewery][:address_2], street: params[:brewery][:street],
+        postal_code: params[:brewery][:postal_code]
         longitude: params[:brewery][:longitude], latitude: params[:brewery][:latitude])
     end
 
