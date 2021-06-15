@@ -24,13 +24,13 @@ ActiveRecord::Schema.define(version: 2021_05_28_004326) do
   end
 
   create_table "likes", force: :cascade do |t|
-    t.integer "user_id_id", null: false
-    t.integer "brewery_id_id", null: false
+    t.integer "user_id", null: false
+    t.integer "brewery_id", null: false
     t.boolean "liked"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["brewery_id_id"], name: "index_likes_on_brewery_id_id"
-    t.index ["user_id_id"], name: "index_likes_on_user_id_id"
+    t.index ["brewery_id"], name: "index_likes_on_brewery_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -54,6 +54,6 @@ ActiveRecord::Schema.define(version: 2021_05_28_004326) do
   end
 
   add_foreign_key "breweries", "locations"
-  add_foreign_key "likes", "brewery_ids"
-  add_foreign_key "likes", "user_ids"
+  add_foreign_key "likes", "breweries"
+  add_foreign_key "likes", "users"
 end

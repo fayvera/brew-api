@@ -14,6 +14,7 @@ class Api::UsersController < ApplicationController
     end
 
     def show
+        # byebug
         render json: @user
     end
 
