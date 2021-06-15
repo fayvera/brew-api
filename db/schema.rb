@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_194722) do
     t.integer "location_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "odb_id"
+    t.integer "obdb_id"
     t.index ["location_id"], name: "index_breweries_on_location_id"
   end
 
