@@ -6,6 +6,6 @@ class Brewery < ApplicationRecord
   has_many :users, through: :likes
 
   def attributes
-    {"name" => nil, "phone" => nil, "website_url" => nil, "brewery_type" => nil, "location_id" => nil}
+    {"name" => nil, "id" =>, "phone" => nil, "website_url" => nil, "brewery_type" => nil, "location_id" => nil}
   end
 end

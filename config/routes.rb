@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do 
     resources :locations, only: [:index, :show]
-    resources :likes 
+    # resources :likes
     resources :breweries, only: [:index, :show]
     resources :users, except: [:index, :show] 
     get '/users/currentuser', to: "users#show"
