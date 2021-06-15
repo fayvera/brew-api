@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-    before_action :set_user, :new_location only: [:update, :destroy]
+    before_action :set_user, :new_location, only: [:update, :destroy]
     before_action :current_user, only: [:show, :update]
     skip_before_action :authorized, only: [:create, :update]
 
@@ -18,17 +18,18 @@ class Api::UsersController < ApplicationController
     end
 
     def update
+        byebug
         brewery = Brewery.find_by(params[:brewery][:obdb_id])
         if @user && !@user.breweries.include?(brewery)
-            byebug
 
-            # @location.find_by(params[:brewery][:street])
-            # if  !@location.id   
+            # local = Location.find_by(params[:brewery][:street])
+            # if !!local
+            if  !@location.id   
                 @location.save
 
                 @brewery = Brewery.new(name: params[:brewery][:name], id: params[:brewery][:id],
                 phone: params[:brewery][:phone], website_url: params[:brewery][:website_url], 
-                brewery_type: params[:brewery][:brewery_type], odb_id: params[:brewery][:obdb_id]
+                brewery_type: params[:brewery][:brewery_type], obdb_id: params[:brewery][:obdb_id],
                 location_id: @location.id)
             if @user.update(breweries << @brewery)
 
@@ -39,6 +40,7 @@ class Api::UsersController < ApplicationController
             else
                 render json: @user.errors
             end
+        end
         end
     end
 
@@ -56,8 +58,8 @@ class Api::UsersController < ApplicationController
         @location = Location.new(country: params[:brewery][:country], 
         state: params[:brewery][:state], city: params[:brewery][:city], 
         address: params[:brewery][:address_2], street: params[:brewery][:street],
-        postal_code: params[:brewery][:postal_code]
-        longitude: params[:brewery][:longitude], latitude: params[:brewery][:latitude])
+        postal_code: params[:brewery][:postal_code], longitude: params[:brewery][:longitude], 
+        latitude: params[:brewery][:latitude])
     end
 
     def user_params
