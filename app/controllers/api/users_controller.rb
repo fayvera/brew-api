@@ -1,5 +1,6 @@
 class Api::UsersController < ApplicationController
-    before_action :set_user, :new_location, only: [:update, :destroy]
+    before_action :find_user, :new_location, only: [:update]
+    before_action :set_user, :new_location, only: [:destroy]
     before_action :current_user, only: [:show, :update]
     skip_before_action :authorized, only: [:create, :update]
 
@@ -18,29 +19,32 @@ class Api::UsersController < ApplicationController
     end
 
     def update
+        brewery = Brewery.find_by(obdb_id: params[:brewery][:obdb_id])
         byebug
-        brewery = Brewery.find_by(params[:brewery][:obdb_id])
-        if @user && !@user.breweries.include?(brewery)
-
-            # local = Location.find_by(params[:brewery][:street])
-            # if !!local
-            if  !@location.id   
-                @location.save
-
-                @brewery = Brewery.new(name: params[:brewery][:name], id: params[:brewery][:id],
-                phone: params[:brewery][:phone], website_url: params[:brewery][:website_url], 
-                brewery_type: params[:brewery][:brewery_type], obdb_id: params[:brewery][:obdb_id],
-                location_id: @location.id)
-            if @user.update(breweries << @brewery)
-
-                render json: @user
-            elsif @user && @user.breweries.include?(params[:brewery])
-                byebug
-                # unlike
-            else
-                render json: @user.errors
-            end
+        if brewery === nil
+            brewery = Brewery.create(name: params[:brewery][:name], id: params[:brewery][:id],
+            phone: params[:brewery][:phone], website_url: params[:brewery][:website_url], 
+            brewery_type: params[:brewery][:brewery_type], obdb_id: params[:brewery][:obdb_id],
+            location_id: @location.id)
         end
+        if @user && !@user.breweries.include?(brewery)
+            byebug
+            if  !brewery.location.id
+                new_location
+                if !@location.id   
+                        @location.save
+                end
+                @user.breweries << @brewery
+                
+                if @user.save
+                    render json: @user
+                else
+                    render json: @user.errors
+                end
+            end 
+        elsif @user && @user.breweries.include?(brewery)
+            @user.breweries.delete(brewery)
+            render json: @user
         end
     end
 
@@ -52,6 +56,10 @@ class Api::UsersController < ApplicationController
 
     def set_user
         @user = User.find(params[:id])
+    end
+
+    def find_user
+        @user = User.find(params[:user_id])
     end
 
     def new_location
