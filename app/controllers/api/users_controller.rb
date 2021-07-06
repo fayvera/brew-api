@@ -20,28 +20,25 @@ class Api::UsersController < ApplicationController
 
     def update
         brewery = Brewery.find_by(obdb_id: params[:brewery][:obdb_id])
-        byebug
         if brewery === nil
             brewery = Brewery.create(name: params[:brewery][:name], id: params[:brewery][:id],
             phone: params[:brewery][:phone], website_url: params[:brewery][:website_url], 
-            brewery_type: params[:brewery][:brewery_type], obdb_id: params[:brewery][:obdb_id],
-            location_id: @location.id)
+            brewery_type: params[:brewery][:brewery_type], obdb_id: params[:brewery][:obdb_id], location: nil)
         end
         if @user && !@user.breweries.include?(brewery)
-            byebug
-            if  !brewery.location.id
+            if  !brewery.location
                 new_location
-                if !@location.id   
-                        @location.save
-                end
-                @user.breweries << @brewery
-                
-                if @user.save
-                    render json: @user
-                else
-                    render json: @user.errors
-                end
-            end 
+            end
+            if !@location.id   
+                    @location.save
+                    brewery.update(location: @location)          
+            end       
+             @user.breweries << brewery     
+            if @user.save
+                render json: @user
+            else
+                render json: @user.errors
+            end
         elsif @user && @user.breweries.include?(brewery)
             @user.breweries.delete(brewery)
             render json: @user
