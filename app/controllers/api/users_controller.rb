@@ -29,13 +29,12 @@ class Api::UsersController < ApplicationController
             if  !brewery.location
                 new_location
             end
-            if !@location.id   
-                    @location.save
-                    brewery.update(location: @location)          
+            if @location.save 
+                brewery.update(location: @location)          
             end       
              @user.breweries << brewery     
             if @user.save
-                render json: @user
+                render json: {user: @user, liked: @user.breweries}
             else
                 render json: @user.errors
             end
