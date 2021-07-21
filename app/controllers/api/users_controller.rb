@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-    before_action :find_user, :new_location, only: [:update]
+    before_action :find_user, only: [:update]
     before_action :set_user, :new_location, only: [:destroy]
     before_action :current_user, only: [:show, :update]
     skip_before_action :authorized, only: [:create, :update]
@@ -27,12 +27,18 @@ class Api::UsersController < ApplicationController
         end
         if @user && !@user.breweries.include?(brewery)
             if  !brewery.location
-                new_location
+                @location = Location.new(country: params[:brewery][:country], 
+                state: params[:brewery][:state], city: params[:brewery][:city], 
+                address: params[:brewery][:address_2], street: params[:brewery][:street],
+                postal_code: params[:brewery][:postal_code], longitude: params[:brewery][:longitude], 
+                latitude: params[:brewery][:latitude])
             end
+            # byebug
             if @location.save 
                 brewery.update(location: @location)          
             end       
              @user.breweries << brewery     
+            #  byebug
             if @user.save
                 render json: {user: @user, liked: @user.breweries}
             else
